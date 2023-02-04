@@ -192,6 +192,10 @@ cython_debug/
 
 # TO JEST WNERWIAJĄCE
 .idea/
+# A to po prostu zle
+*.sqlite3
+
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
