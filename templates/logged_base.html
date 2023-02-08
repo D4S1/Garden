@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<main>
+  <div class="container py-4">
+    <nav class="navbar navbar-expand-lg mb-3 pb-3 rounded" aria-label="Eleventh navbar example">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/main">GARDEN MANAGEMENT</a>
+        <a href="{% url 'garden:logout' %}" class="btn">
+            Logout
+        </a>
+      </div>
+    </nav>
+    {% block fill %}{% endblock %}
+
+    <footer class="pt-3 mt-4 text-muted border-top">
+      &copy; 2023
+    </footer>
+  </div>
+</main>
+
+
+{% endblock %}

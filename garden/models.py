@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Specialization(models.Model):
@@ -8,14 +9,7 @@ class Specialization(models.Model):
 class Supervisor(models.Model):
     name = models.CharField(max_length=64)
     surname = models.CharField(max_length=64)
-
-    @property
-    def login(self):
-        return f"{self.name}.{self.surname}@ogrodnicy.bd"
-
-    @property
-    def password(self):
-        return f"Kierownik{self.pk}"
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"SV {self.name} {self.surname}"
@@ -26,14 +20,7 @@ class Worker(models.Model):
     surname = models.CharField(max_length=64)
     supervisor = models.ForeignKey(Supervisor, on_delete=models.CASCADE)
     specializations = models.ManyToManyField(Specialization)
-
-    @property
-    def login(self):
-        return f"{self.name}.{self.surname}@ogrodnicy.bd"
-
-    @property
-    def password(self):
-        return f"Ogrodnik{self.pk}"
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f" W {self.name} {self.surname}"
