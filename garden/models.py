@@ -48,6 +48,9 @@ class Job(models.Model):
     area = models.ForeignKey(Area, on_delete=models.CASCADE)
     supervisor = models.ForeignKey(Supervisor, null=True, on_delete=models.SET_NULL)
 
+    def __str__(self):
+        return self.name
+
 
 class Task(models.Model):
     realization_date = models.DateField()

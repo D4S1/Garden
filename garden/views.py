@@ -145,3 +145,26 @@ class AddEmployeeView(LoginRequiredMixin, PermissionRequiredMixin, View):
         emp.specializations.add(*specializations)
         emp.save()
         return redirect("garden:list-employees")
+
+
+class AddTaskView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = 'garden.add_task'
+
+    def get(self, request):
+        jobs = models.Job.objects.all()
+        specializations = models.Specialization.objects.all()
+        return render(request,  "add_task.html", {'jobs': jobs, 'specializations': specializations})
+
+    def post(self, request):
+        job = request.POST['job']
+        specialization = request.POST['specialization']
+        r_date = request.POST['realization_date']
+        description = request.POST['description']
+        if job and specialization and r_date:
+            task = models.Task.objects.create(realization_date=r_date, job_id=job, specialization_id=specialization)
+            if description:
+                task.description = description
+                task.save()
+            return redirect("garden:main")
+        return render(request,  "add_task.html", {'lack': True})
+

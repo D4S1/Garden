@@ -14,5 +14,6 @@ urlpatterns = [
     path('add-location', views.AddLocationView.as_view(), name="add-location"),
     path('add-area', views.AddAreaView.as_view(), name="add-area"),
     path('add-employee', views.AddEmployeeView.as_view(), name="add-employee"),
+    path('add-task', views.AddTaskView.as_view(), name="add-task"),
 
 ]
