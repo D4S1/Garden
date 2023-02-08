@@ -3,37 +3,33 @@
 <div class="container">
 <div class="col-12 col-sm-12 col-md-12">
       <div class="card">
-
         <nav class="navbar card-header navbar-expand-lg rounded">
           <div class="container-fluid">
-            <h4 class="navbar-brand">Jobs</h4>
-            {% if perms.garden.add_job %}
-            <a href="{% url 'garden:add-job' %}" class="btn">
+            <h4 class="navbar-brand">Employees</h4>
+            <a href="{% url 'garden:add-employee' %}" class="btn">
               <i class="bi bi-plus-square"></i>
             </a>
-            {% endif %}
           </div>
         </nav>
-
         <div class="card-body">
           <div class="media-list position-relative">
             <div class="table-responsive " id="project-team-scroll" tabindex="1" style="overflow: hidden; outline: none;">
               <table class="table table-hover table-xl mb-0">
                 <thead>
                   <tr class="">
-                    <th>Job Name</th>
-                    <th>Area number</th>
+                    <th>Id</th>
+                    <th>Name</th>
                     <th>Supervisor</th>
+                    <th>Specializations</th>
                   </tr>
                 </thead>
                 <tbody>
-                {% for job in jobs %}
+                {% for employee in employees %}
                   <tr class="">
-                    <td class="text-truncate">{{job.name}}</td>
-                    <td class="text-truncate">
-                      {{job.area}}
-                    </td>
-                    <td class="text-truncate">{{job.supervisor}}</td>
+                    <td class="text-truncate">{{employee.pk}}</td>
+                    <td class="text-truncate">{{employee}}</td>
+                    <td class="text-truncate">{{employee.supervisor}}</td>
+                    <td class="text-truncate">{% for spec in employee.specializations.all %} {{spec}}, {% endfor %}</td>
                   </tr>
                 {% endfor %}
                 </tbody>

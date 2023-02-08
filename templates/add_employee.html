@@ -1,0 +1,58 @@
+ {% extends 'logged_base.html' %}
+{% block fill %}
+<section class="vh-90">
+  <div class="container  h-80">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card" style="border-radius: 1rem;">
+          <div class="card-body p-4 text-center">
+            <div class="mb-md-5 mt-md-4 pb-5">
+              <h2 class="fw-bold mb-2 text-uppercase">Add new employee</h2>
+              <p class="text-dark-50 mb-5">Please enter name, surname and chose supervisor to add new employee</p>
+
+              <form method="post">
+              {% csrf_token %}
+              <div class="form-outline form-dark mb-4">
+                <input type="text" name="name" id="name" class="form-control form-control-lg" />
+                <label class="form-label" for="name">Name</label>
+              </div>
+
+              <div class="form-outline form-dark mb-4">
+                <input type="text" name="surname" id="surname" class="form-control form-control-lg" />
+                <label class="form-label" for="surname">Surname</label>
+              </div>
+
+               <div class="form-outline form-dark mb-4">
+                <select multiple name="specializations" class="form-control" id="specializations">
+                    {% for specialization in specializations %}
+                  <option class="text-dark" value="{{specialization.name}}">{{specialization}}</option>
+                    {% endfor %}
+                </select>
+                   <label for="specializations">Example multiple select</label>
+              </div>
+
+              <div class="form-outline form-dark mb-4">
+                <select name="supervisor" class="form-control" id="sv">
+                    {% for supervisor in supervisors %}
+                  <option value="{{supervisor.pk}}">{{supervisor}}</option>
+                    {% endfor %}
+                </select>
+                  <label for="sv">Chose supervisor</label>
+              </div>
+
+              <button class="btn btn-outline-secondary btn-lg px-5" type="submit">Add</button>
+              </form>
+
+
+            </div>
+          {% if lack %}
+          <p class="text-danger">You need to fill all fields</p>
+              {% endif %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

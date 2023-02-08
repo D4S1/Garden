@@ -3,43 +3,45 @@
 
     <div class="row mb-4 pb-4 align-items-md-stretch">
       <div class="col-md-6">
-        <div class="h-100 p-5 text-bg-dark rounded-3">
+        <div class="h-100 p-5 text-bg-light rounded-3">
           <h2>JOBS</h2>
-          <p>Swap the background-color utility and add a `.text-*` color utility to mix up the jumbotron look. Then, mix and match with additional component themes and more.</p>
-          <button class="btn btn-outline-light" type="button"><i class="bi bi-arrow-right"></i></button>
+          <p>Show list of jobs user is involved in</p>
+          <a href="{% url 'garden:list-jobs' %}" class="btn btn-outline-dark"><i class="bi bi-arrow-right"></i></a>
         </div>
       </div>
       <div class="col-md-6">
-        <div class="h-100 p-5 text-bg-dark rounded-3">
+        <div class="h-100 p-5 text-bg-light rounded-3">
           <h2>TASKS</h2>
-          <p>Or, keep it light and add a border for some added definition to the boundaries of your content. Be sure to look under the hood at the source HTML here as we've adjusted the alignment and sizing of both column's content for equal-height.</p>
-          <button class="btn btn-outline-light" type="button"><i class="bi bi-arrow-right"></i></button>
+          <p>Show list of tasks user is involved in</p>
+          <button class="btn btn-outline-dark" type="button"><i class="bi bi-arrow-right"></i></button>
         </div>
       </div>
     </div>
-
+{% if perms.garden.view_area %}
     <div class="row">
       <div class="col-lg-4">
-        <div class="h-100 p-5 text-bg-dark rounded-3">
+        <div class="h-100 p-5 text-bg-light rounded-3">
           <h2>EMPLOYEES</h2>
-          <p>Or, keep it light and add a border for some added definition to the boundaries of your content. Be sure to look under the hood at the source HTML here as we've adjusted the alignment and sizing of both column's content for equal-height.</p>
-          <button class="btn btn-outline-light" type="button"><i class="bi bi-arrow-right"></i></button>
+          <p>Show list of employees. This view is restricted to supervisors</p>
+          <a href="{% url 'garden:list-employees' %}" class="btn btn-outline-dark"><i class="bi bi-arrow-right"></i></a>
         </div>
       </div>
       <div class="col-lg-4">
-        <div class="h-100 p-5 text-bg-dark rounded-3">
+        <div class="h-100 p-5 text-bg-light rounded-3">
           <h2>LOCATIONS</h2>
-          <p>Or, keep it light and add a border for some added definition to the boundaries of your content. Be sure to look under the hood at the source HTML here as we've adjusted the alignment and sizing of both column's content for equal-height.</p>
-          <button class="btn btn-outline-light" type="button"><i class="bi bi-arrow-right"></i></button>
+          <p>Show list of gardens locations. This view is restricted to supervisors</p>
+          <a href="{% url 'garden:list-locations' %}" class="btn btn-outline-dark"><i class="bi bi-arrow-right"></i></a>
         </div>
       </div>
       <div class="col-lg-4">
-        <div class="h-100 p-5 text-bg-dark rounded-3">
+        <div class="h-100 p-5 text-bg-light rounded-3">
           <h2>AREAS</h2>
-          <p>Or, keep it light and add a border for some added definition to the boundaries of your content. Be sure to look under the hood at the source HTML here as we've adjusted the alignment and sizing of both column's content for equal-height.</p>
-          <button class="btn btn-outline-light" type="button"><i class="bi bi-arrow-right"></i></button>
+          <p>Show list of areas. This view is restricted to supervisors</p>
+          <a href="{% url 'garden:list-areas' %}" class="btn btn-outline-dark"><i class="bi bi-arrow-right"></i></a>
         </div>
       </div>
     </div>
-
+  <div>
+  </div>
+{% endif %}
 {% endblock %}

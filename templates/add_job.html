@@ -1,3 +1,58 @@
 {% extends 'logged_base.html' %}
 {% block fill %}
+<section class="vh-90">
+  <div class="container  h-80">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card" style="border-radius: 1rem;">
+          <div class="card-body p-4 text-center">
+            <div class="mb-md-5 mt-md-4 pb-5">
+              <h2 class="fw-bold mb-2 text-uppercase">Add new Job</h2>
+              <p class="text-dark-50 mb-5">Please chose name, area and supervisor for new job</p>
+
+              <form method="post">
+              {% csrf_token %}
+<!--              <div class="form-outline form-dark mb-4">-->
+<!--                <input type="text" name="name" id="loc_name" class="form-control form-control-lg" />-->
+<!--                <label class="form-label" for="loc_name">Name</label>-->
+<!--              </div>-->
+            <div class="form-outline form-dark mb-4">
+                <input type="text" name="name" id="job-name" class="form-control form-control-lg" />
+                <label class="form-label" for="job-name">Name</label>
+              </div>
+
+
+              <div class="form-outline form-dark mb-4">
+                <select name="area" class="form-control" id="area">
+                    {% for area in areas %}
+                  <option value="{{area.pk}}">{{area}}</option>
+                    {% endfor %}
+                </select>
+                <label for="area">Chose area</label>
+              </div>
+
+              <div class="form-outline form-dark mb-4">
+                <select name="supervisor" class="form-control" id="loc">
+                    {% for supervisor in supervisors %}
+                  <option value="{{supervisor.pk}}">{{supervisor}}</option>
+                    {% endfor %}
+                </select>
+                <label for="loc">Chose supervisor</label>
+              </div>
+
+              <button class="btn btn-outline-secondary btn-lg px-5" type="submit">Add</button>
+              </form>
+
+
+            </div>
+          {% if lack %}
+          <p class="text-danger">You must fill all fields</p>
+            {% endif %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}
