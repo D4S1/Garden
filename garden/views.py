@@ -147,6 +147,17 @@ class AddEmployeeView(LoginRequiredMixin, PermissionRequiredMixin, View):
         return redirect("garden:list-employees")
 
 
+class ListTasksView(LoginRequiredMixin, View):
+
+    def get(self, request):
+        if request.user.groups.filter(name='supervisor').exists() or request.user.is_superuser:
+            tasks = models.Task.objects.all()
+        else:
+            emp = models.Worker.objects.get(user=request.user).pk
+            tasks = models.Task.objects.filter(worker_id=emp)
+        return render(request, "list_tasks.html", {'tasks': tasks})
+
+
 class AddTaskView(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = 'garden.add_task'
 
@@ -165,6 +176,53 @@ class AddTaskView(LoginRequiredMixin, PermissionRequiredMixin, View):
             if description:
                 task.description = description
                 task.save()
-            return redirect("garden:main")
+            return redirect("garden:list-tasks")
         return render(request,  "add_task.html", {'lack': True})
 
+
+class AddPersonToTaskView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = 'garden.change_task'
+
+    def get(self, request, task_id):
+        task = models.Task.objects.get(pk=task_id)
+        emp = models.Task.objects.filter(realization_date=task.realization_date).values_list('worker_id', flat=True)
+        if emp.first() == None:
+            emp = []
+        employees = [em for em in models.Worker.objects.exclude(pk__in=emp) if task.specialization in em.specializations.all()]
+        return render(request,  "add_person_to_task.html", {'task': task, 'employees': employees})
+
+    def post(self, request, task_id):
+        task = models.Task.objects.get(pk=task_id)
+        employee = request.POST['employee']
+        if employee:
+            emp = models.Worker.objects.get(pk=employee)
+            if len(models.Task.objects.filter(worker_id=employee)) == 1:
+                return render(request, "add_person_to_task.html", {'msg': f"This employee already has a job on {task.realization_date}"})
+            elif task.specialization not in emp.specializations.all():
+                return render(request, "add_person_to_task.html",
+                              {'msg': f"This employee doesn't have qualification for this job"})
+
+            task.worker_id = employee
+            task.save()
+            return redirect("garden:list-tasks")
+        return render(request,  "add_task.html", {'lack': True})
+
+
+class ChangeRDTaskView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = 'garden.change_task'
+
+    def get(self, request, task_id):
+        task = models.Task.objects.get(pk=task_id)
+        return render(request,  "update_task_rd.html", {'task': task})
+
+    def post(self, request, task_id):
+        task = models.Task.objects.get(pk=task_id)
+        r_date = request.POST['realization_date']
+        if r_date:
+            if task.worker_id and task.worker_id in models.Task.objects.filter(realization_date=r_date).values_list('worker_id', flat=True):
+                return render(request, "add_person_to_task.html", {'msg': True})
+
+            task.realization_date = r_date
+            task.save()
+            return redirect("garden:list-tasks")
+        return render(request,  "add_task.html", {'lack': True})

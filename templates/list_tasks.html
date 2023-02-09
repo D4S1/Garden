@@ -1,3 +1,69 @@
 {% extends 'logged_base.html' %}
 {% block fill %}
+
+<div class="container">
+<div class="col-12 col-sm-12 col-md-12">
+
+        <div class="card">
+          <nav class="navbar card-header navbar-expand-lg rounded">
+          <div class="container-fluid">
+            <h4 class="navbar-brand">Tasks</h4>
+            {% if perms.garden.add_task %}
+            <a href="{% url 'garden:add-task' %}" class="btn">
+              <i class="bi bi-plus-square"></i>
+            </a>
+            {% endif %}
+          </div>
+        </nav>
+          <div class="card-body" data-mdb-perfect-scrollbar="true" style="position: relative;">
+
+            <table class="table mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">Task id</th>
+                  <th scope="col">Job id</th>
+                  <th scope="col">Specialization</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Employee</th>
+                  <th scope="col">Realization date</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for task in tasks %}
+              <tr class="fw-normal">
+                <td class="align-middle">
+                    <span>{{task.pk}}</span>
+                </td>
+                <td class="align-middle">
+                    <span>{{task.job}}</span>
+                </td>
+                <td class="align-middle">
+                    <span>{{task.specialization}}</span>
+                </td>
+                <td class="col-4 align-middle">
+                    <span>{{task.description}}</span>
+                </td>
+                <td class="align-middle">
+                    <span>{% if task.worker %}{{task.worker}}{% else %} - {% endif %}
+                        <a class="mx-3 btn" href="{% url 'garden:add-person-to-task' task.pk %}" data-mdb-toggle="tooltip">
+                            <i class="bi bi-person-fill-gear"></i>
+                        </a>
+                    </span>
+                </td>
+                <td class="align-middle">
+                    <span>{{task.realization_date}}
+                        <a class="mx-3 btn" href="{% url 'garden:change-realization-date' task.pk %}" data-mdb-toggle="tooltip">
+                            <i class="bi bi-calendar3-event"></i>
+                        </a>
+                    </span>
+                </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+  </div>
 {% endblock %}
